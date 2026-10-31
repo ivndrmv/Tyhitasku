@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ära maksa rohkem</title>
+</head>
+<body>
+    <header>
+        <h1>Ära maksa rohkem.</h1>
+        <h2> Otsi soodsamalt.</h2>
+        <p>Leia parimad pakkumised Eesti e-poodidest.</p>
+    <form action="/search" method="GET">
+        <input type="text" name="query" placeholder="Mida soovid soodsamalt leida?" value="{{search_query or '' }}">
+        <button type="submit">Otsi</button>
+</body>
+</html>
