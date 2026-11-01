@@ -1,0 +1,226 @@
+:root {
+    --color-primary: #25292E;
+    --color-secondary: #777E87;
+    --color-accent-primary: #1C782D;
+    --color-accent-secondary: #044D15;
+    --color-background: #EDEDED;
+}
+
+* {
+    box-sizing: border-box;
+    color: black;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--color-background);
+
+    & *::selection {
+        background: red;
+        color: magenta;
+
+    }
+}
+
+header {
+    margin-top: 30vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    letter-spacing: 0.08em;
+    
+    h1 {
+    font-size: 2.6rem;
+    font-weight: 600;
+    margin-bottom: 2.5rem;
+    }
+
+    h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--color-accent-primary);
+    margin-bottom: 2rem;
+    }  
+    
+    p {
+        color: var(--color-accent-secondary);
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+    }
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    height: 3em;
+    width: 50%;
+    border: 1px solid #DDE1E5;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 4px;
+    gap: 0.7rem;
+
+    img {
+        width: 1.5em;
+        height: auto;
+        margin-left: 0.7em;
+    }
+
+    input{
+        flex: 1;
+        font-size: 1rem;
+        color: #30363D;
+        border: none;
+        text-align: left;
+    }
+
+    button {
+        background-color: #30363D;
+        color: #FFFFFF;
+        border: none;
+        /*  12 - 4 = 9 */
+        border-radius: 9px;
+        align-self: stretch;
+        padding: 0 1.8em;
+    }
+
+}
+
+main {
+    margin: 15vh 17vw;
+
+    h2 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--color-accent-secondary);
+    }
+}
+
+.product-count {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0vh;
+
+    p {
+        font-size: 0.9rem;
+        font-weight: 300;
+        color: var(--color-secondary);
+    }
+}
+
+.product-table-wrapper {
+    margin-top: 2rem;
+    border: 1px solid #DDE1E5;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.product-table {
+    width: 100%;
+    background-color: #FFFFFF;
+    border-collapse: collapse;
+    table-layout: fixed;
+    /* overflow-wrap: anywhere; */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    --product-column-width: 50%;
+
+    th {
+        text-align: left;
+        padding: 1.5rem 0;
+        font-weight: 400;
+        font-size: 0.9rem;
+        color: var(--color-secondary);
+
+        &:nth-child(1) {
+            width: var(--product-column-width);
+            padding-left: 1.7rem;
+        }
+
+        &:nth-child(n+2):nth-child(-n+4) {
+            width: calc((100% - var(--product-column-width)) / 3);
+            text-align: center;
+        }
+    }
+
+    tbody tr{
+        td{
+            padding: 2.5rem 1.7rem;
+            /* border-bottom: 1px solid #DDE1E5; */
+            border-top: 1px solid #DDE1E5;
+            color: black;
+        }
+        
+        .product-column {
+            h2 {
+                font-size: 1rem;
+                color: var(--color-primary);
+                margin-bottom: 0.8rem;
+            }
+
+            p{
+                color: var(--color-primary);
+                font-size: 0.8rem;
+            }
+            
+            p span {
+                    color: var(--color-secondary);
+            }
+        }
+
+        .price-column {
+            text-align: center;
+
+            div {
+                display: flex;
+                flex-direction: column;
+            }
+            
+            div del {
+                color: var(--color-secondary);
+                font-size: 0.8rem;
+            }
+
+            div span {
+                margin-top: 0.1rem;
+                font-weight: 600;
+                font-size: 1.3rem;
+                color: var(--color-accent-primary);
+            }
+        }
+
+        .discount-column {
+            text-align: center;
+            div span {
+                padding: 0.4rem 0.8rem;
+                color: var(--color-accent-primary);
+                background-color: #EDF5EE;
+                border-radius: 0.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        .link-column {
+            text-align: center;
+            a {
+                color: var(--color-accent-primary);
+                text-decoration: none;
+            }
+            a span {
+                font-size: 1.7rem;
+                color: var(--color-accent-primary);
+            }
+        }
+    }
+}
+
+#tabel-footer {
+    margin-top: 1.3rem;
+    font-size: 0.8rem;
+    color: var(--color-secondary);
+}
