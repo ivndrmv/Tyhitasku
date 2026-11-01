@@ -150,13 +150,14 @@ main {
 
     tbody tr{
         td{
-            padding: 2.5rem 1.7rem;
+            padding-block: 2.5rem;
             /* border-bottom: 1px solid #DDE1E5; */
             border-top: 1px solid #DDE1E5;
             color: black;
         }
         
         .product-column {
+            padding: 1.7rem;
             h2 {
                 font-size: 1rem;
                 color: var(--color-primary);
