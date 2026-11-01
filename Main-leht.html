@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ära maksa rohkem</title>
+</head>
+<body>
+    <header>
+        <h1>Ära maksa rohkem.</h1>
+        <h2>Otsi soodsamalt.</h2>
+        <p>Leia parimad pakkumised Eesti e-poodidest.</p>
+        <form action="/search" method="GET">
+            <input type="text" name="query" placeholder="Mida soovid soodsamalt leida?" value="{{ search_query or '' }}">
+            <button type="submit">Otsi</button>
+        </form>
+    </header>
+    <main>
+        <section>
+            <h2>Kõik tooted</h2>
+            <p>{{ total_offers }} pakkumist &middot; {{ total_stores }} poodi</p>
+            <p>Näidispakkumised</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Toode ja pood</th>
+                        <th>Hind</th>
+                        <th>Soodustus</th>
+                        <th>Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td>
+                            <h2>{{ product.title }}</h2>
+                            <p>{{ product.store_name }} &middot; {{ product.category }} &middot; {{ product.color }}</p>
+                        </td>
+                        <td>
+                            <del>{{ product.old_price }} €</del>
+                            <span>{{ product.new_price }} €</span>
+                        </td>
+                        <td>-{{ product.discount_percent }}%</td>
+                        <td>
+                            <a href="{{ product.url }}" target="_blank" rel="noopener noreferrer">Vaata poes &nearr;</a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4">Pakkumisi ei leitud.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <nav>
+                {% if current_page > 1 %}
+                    <a href="/?page={{ current_page - 1 }}&query={{ search_query }}">Eelmised tooted</a>
+                {% endif %}
+
+                <span>Leht {{ current_page }} / {{ total_pages }}</span>
+
+                {% if current_page < total_pages %}
+                    <a href="/?page={{ current_page + 1 }}&query={{ search_query }}">Järgmised tooted &rarr;</a>
+                {% endif %}
+            </nav>
+            
+            <p>Lõplikku hinda ja saadavust vaata poe lehelt.</p>
+        </section>
+    </main>
+</body>
+</html>
