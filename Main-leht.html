@@ -3,70 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style-main-leht.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <title>Ära maksa rohkem</title>
 </head>
 <body>
+    <nav class="site-nav">
+        <a class="logo" href="Main-leht.html">tühitasku</a>
+        <ul>
+            <li><a href="Meist-leht.html">Meist</a></li>
+            <li><a href="Kontakt-leht.html">Kontakt</a></li>
+        </ul>
+    </nav>
     <header>
         <h1>Ära maksa rohkem.</h1>
-        <h2>Otsi soodsamalt.</h2>
+        <h2>Otsi soodsamalt.</h2> 
         <p>Leia parimad pakkumised Eesti e-poodidest.</p>
-        <form action="/search" method="GET">
-            <input type="text" name="query" placeholder="Mida soovid soodsamalt leida?" value="{{ search_query or '' }}">
+        <form class='search-bar' action="/search" method="GET">
+            <img src="./Images/search-icon.svg" alt="search-icon" class="search-icon">
+            <input type="text" name="query" placeholder="Mida soovid soodsamalt leida?">
             <button type="submit">Otsi</button>
         </form>
     </header>
     <main>
         <section>
             <h2>Kõik tooted</h2>
-            <p>{{ total_offers }} pakkumist &middot; {{ total_stores }} poodi</p>
+
+            <div class="product-count">
+            <p>4 pakkumist &middot; 3 poodi</p>
             <p>Näidispakkumised</p>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Toode ja pood</th>
-                        <th>Hind</th>
-                        <th>Soodustus</th>
-                        <th>Link</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for product in products %}
-                    <tr>
-                        <td>
-                            <h2>{{ product.title }}</h2>
-                            <p>{{ product.store_name }} &middot; {{ product.category }} &middot; {{ product.color }}</p>
-                        </td>
-                        <td>
-                            <del>{{ product.old_price }} €</del>
-                            <span>{{ product.new_price }} €</span>
-                        </td>
-                        <td>-{{ product.discount_percent }}%</td>
-                        <td>
-                            <a href="{{ product.url }}" target="_blank" rel="noopener noreferrer">Vaata poes &nearr;</a>
-                        </td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="4">Pakkumisi ei leitud.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-
-            <nav>
-                {% if current_page > 1 %}
-                    <a href="/?page={{ current_page - 1 }}&query={{ search_query }}">Eelmised tooted</a>
-                {% endif %}
-
-                <span>Leht {{ current_page }} / {{ total_pages }}</span>
-
-                {% if current_page < total_pages %}
-                    <a href="/?page={{ current_page + 1 }}&query={{ search_query }}">Järgmised tooted &rarr;</a>
-                {% endif %}
-            </nav>
-            
-            <p>Lõplikku hinda ja saadavust vaata poe lehelt.</p>
+            </div>
+        
+            <div class="product-table-wrapper">
+                <table class="product-table">
+                    <thead>
+                        <tr>
+                            <th>Toode ja pood</th>
+                            <th>Hind</th>
+                            <th>Soodustus</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="product-column">
+                                <h2>JBL Tune 520BT</h2>
+                                <p>Euronics &middot;
+                                    <span>Kõrvaklapid &middot; must</span>
+                                </p>
+                            </td>
+                            <td class="price-column">
+                                <div>
+                                    <del>39,99 €</del>
+                                    <span>29,99 €</span>
+                                </div>
+                            </td>
+                            <td class="discount-column">
+                                <div><span>-25%</span></div>
+                            </td>
+                            <td class="link-column">
+                                <a href="{{ product.url }}" target="_blank" rel="noopener noreferrer">Vaata poes <span>&nearr;</span></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="product-column">
+                                <h2>Sony WH-CH520</h2>
+                                <p>Klick &middot;
+                                    <span>Kõrvaklapid &middot; sinine</span>
+                                </p>
+                            </td>
+                            <td class="price-column">
+                                <div>
+                                    <del>49,99 €</del>
+                                    <span>39,99 €</span>
+                                </div>
+                            </td>
+                            <td class="discount-column">
+                                <div><span>-20%</span></div>
+                            </td>
+                            <td class="link-column">
+                                <a href="{{ product.url }}" target="_blank" rel="noopener noreferrer">Vaata poes <span>&nearr;</span></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="product-column">
+                                <h2>JBL Wave Beam</h2>
+                                <p>Arvutitark &middot;
+                                    <span>õrvaklapid &middot; must</span>
+                                </p>
+                            </td>
+                            <td class="price-column">
+                                <div>
+                                    <del>79,99 €</del>
+                                    <span>59,99 €</span>
+                                </div>
+                            </td>
+                            <td class="discount-column">
+                                <div><span>-25%</span></div>
+                            </td>
+                            <td class="link-column">
+                                <a href="{{ product.url }}" target="_blank" rel="noopener noreferrer">Vaata poes <span>&nearr;</span></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="product-column">
+                                <h2>Soundcore Space A40</h2>
+                                <p>Euronics &middot;
+                                    <span>õrvaklapid &middot; must</span>
+                                </p>
+                            </td>
+                            <td class="price-column">
+                                <div>
+                                    <del>99,99 €</del>
+                                    <span>69,99 €</span>
+                                </div>
+                            </td>
+                            <td class="discount-column">
+                                <div><span>-30%</span></div>
+                            </td>
+                            <td class="link-column">
+                                <a href="{{ product.url }}" target="_blank" rel="noopener noreferrer">Vaata poes <span>&nearr;</span></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">Pakkumisi rohkem ei leitud.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p id="tabel-footer">Lõplikku hinda ja saadavust vaata poe lehelt.</p>
         </section>
     </main>
 </body>
