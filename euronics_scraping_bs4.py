@@ -1,3 +1,9 @@
+# ! euronics has the 'hea hind' and so that if i can filter out the products which has only 'hea hind'
+# ! i can get rid of try expect in calculating percentage cases if i want to. Just need to agree that 'hea hind'
+# ! is classified as discount in our website or not, thats it
+# ! can do it with this:  if product.select_one(".price").find_next().get_text(strip=True).startswith('H'): continue -> returns back/up to loop skipping this product
+# ! or use product.find("span", "label").get_text().startswith("H") the first one is better because its more specific
+
 # importing so that later i can write the output to the specific folder
 from pathlib import Path
 
@@ -34,13 +40,13 @@ category_names = [
 # ! or you could just say inserts 100 but if it has more that 100 it fails and doesn't look clean
 # ? bad one the max_page_nr
 max_page_nr = "&page=100"
-for i, category in enumerate(links):
+# i for choosing the category name when we create the cvs files
+for i, category_url in enumerate(links):
     product_title = []
     product_img = []
     product_regular_price = []
     product_discount_price = []
-    # product_discount_percentage = []
-    category_url = category
+    product_discount_percentage = []
     category_url_result = requests.get(category_url + max_page_nr)
     category_url_content = category_url_result.text
     category_soup = BeautifulSoup(category_url_content, "lxml")
@@ -48,14 +54,16 @@ for i, category in enumerate(links):
     # print(category_soup.find("h1", class_="campaign-heading").get_text())
     category_box = category_soup.find("section", class_="product-card__list")
     products = category_box.find_all("article", class_="product-card")
-    for product in products:
+    # enumerating to keep track which index of product we have to cal the discount price percentage
+    for j, product in enumerate(products):
+        # print(product.find("span", "label").get_text().startswith("H"))
         product_title.append(
             product.find("span", class_="product-card__title").get_text(strip=True)
         )
-        product_img.append(
-            product.find("img", class_="product-card__image")["src"].strip()
-        )
+        # can use strip but not necessary
+        product_img.append(product.find("img", class_="product-card__image")["src"])
         # print(product.get_text(strip=True, separator="\n").strip().split("\n"))
+        # css .price br mean select element br which is child of .price, There is only one such element in .price children and lower
         discount_price = product.select_one(".price br").next_sibling.strip()
 
         # ? sometimes we dont have the cents
@@ -63,23 +71,55 @@ for i, category in enumerate(links):
             discount_price_cents = product.select_one(".price span.cp").get_text(
                 strip=True
             )
+
             discount_price += discount_price_cents
         except AttributeError:
             pass
 
-        product_discount_price.append(discount_price)
+        # ? removing the  space and the € symbol using split method
+        product_discount_price.append(discount_price.split()[0])
 
         # ? sometimes we dont have the regular price displayed
+        # ! we can only calculate the discount percentage if we have regular price variable
+        # ! that's why the calculation happens inside this
+        # ! note that before calculating we need to append new regular price if it exist to product_regular_price
+        # ! if we dont find the regular price we just simply add value 'False' to both product_regular_price and product_discount_percentage
         try:
+            # ? removing the  space and the € symbol using split method, and many more
             regular_price = (
                 product.find("div", class_="discount__old")
                 .get_text(strip=True)
-                .replace(" ", "")
-                .replace("\n", "")
+                # .replace(" ", "")
+                # .replace("\n", "")
+                # before: Tavahind:        1329 € -> after 1329 €
                 .split(":")[1]
+                # before: 1329 € -> after 1329
+                .split()[0]
             )
+
+            # product_discount_percentage.append(
+            #     round(float(product_discount_price[j].split()[0]))
+            #     / float(product_regular_price[j].split[0]),
+            #     2,
+            # )
             product_regular_price.append(regular_price)
+            # print(float(product_discount_price[j].split()[0]))
+            # print("regular", float(product_regular_price[j].split()[0]))
+            # print(j)
+            #
+            # ? concert to float only now because before we needed only to alter the str not calculate sth
+            discount_price_float = float(product_discount_price[j])
+            regular_price_float = float(product_regular_price[j])
+            product_discount_percentage.append(
+                round(
+                    ((regular_price_float - discount_price_float) / regular_price_float)
+                    * 100,
+                    1,
+                )
+            )
         except AttributeError:
+            # ! AttributeError comes when we can't find the regular_price
+            product_discount_percentage.append("False")
             product_regular_price.append("False")
 
     # direct_text = product.find(string=True, recursive=False)
@@ -90,7 +130,9 @@ for i, category in enumerate(links):
             "img": product_img,
             "regular_price": product_regular_price,
             "discount_price": product_discount_price,
+            "discount_precentage": product_discount_percentage,
         }
     )
     df.to_csv(folder / f"{category_names[i]}.csv", index=False)
 # ! remember that if product name has ',' in it the cvs would put the "" around text to protect it form displaying tit wrongly
+# ! the len of each list must be the same otherwise the pd.DataFrame returns error. So we add the False statement
