@@ -47,6 +47,7 @@ for i, category_url in enumerate(links):
     product_regular_price = []
     product_discount_price = []
     product_discount_percentage = []
+    product_link = []
     category_url_result = requests.get(category_url + max_page_nr)
     category_url_content = category_url_result.text
     category_soup = BeautifulSoup(category_url_content, "lxml")
@@ -122,15 +123,22 @@ for i, category_url in enumerate(links):
             product_discount_percentage.append("False")
             product_regular_price.append("False")
 
+        product_link.append(
+            product.select_one("div", class_="product-card__overlays campaign").find(
+                "a"
+            )["href"]
+        )
+
     # direct_text = product.find(string=True, recursive=False)
     # print(direct_text.strip() if direct_text else "")
     df = pd.DataFrame(
         {
             "name": product_title,
+            "product_link": product_link,
             "img": product_img,
             "regular_price": product_regular_price,
             "discount_price": product_discount_price,
-            "discount_precentage": product_discount_percentage,
+            "discount_percentage": product_discount_percentage,
         }
     )
     df.to_csv(folder / f"{category_names[i]}.csv", index=False)
