@@ -107,7 +107,7 @@ def extract_product_info(product: Tag, product_info: dict[str, list]) -> Product
     return product_info
 
 
-def main() -> None:
+def main(links: list[str], category_names: list[str]) -> None:
     for i, category_url in enumerate(links):
         product_info: ProductInfo = {
             "name": [],
@@ -129,4 +129,4 @@ if __name__ == "__main__":
     offers_path = "/pakkumised"
     links, category_names = get_links_and_category_names(website + offers_path)
     max_page_param = "&page=100"
-    main()
+    main(links, category_names)
