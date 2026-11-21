@@ -1,0 +1,242 @@
+:root {
+    --color-primary: #25292e;
+    --color-secondary: #777e87;
+    --color-accent-primary: #1C782D;
+    --color-accent-secondary: #044D15;
+    --color-brand: #0e5345;
+    --color-background: #EDEDED;
+    --color-border: #DDE1E5;
+    --color-logo: #1a3e34;
+
+    --background-decoration-top: url(Images/taust-laine-ules.svg);
+    --background-decoration-bottom: url(Images/taust-laine-alla.svg);
+    --kriipsud: url(Images/kriipsud.svg);
+}
+
+
+
+* {
+    box-sizing: border-box;
+    color:black;
+    font-family: "Inter", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-background);
+
+    & *::selection {
+        background: #0072da;
+        color: white
+    }
+}
+
+.visiually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+}
+
+.page {
+    flex: 1;
+    padding: 2rem 3rem 9rem;
+    background-image: var(--background-decoration-top), var(--background-decoration-bottom);
+    background-repeat: no-repeat;
+    background-position: right top, left bottom;
+    background-size: 28.4vw auto, 30.9vw auto;
+}
+
+.site-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    text-decoration: none;
+
+
+    img {
+        display: block;
+        height: 4.25rem;
+        width: auto;
+        rotate: -13deg;
+    }
+
+    span {
+        font-family: "Fira Sans", sans-serif;
+        font-size: 2.5rem;
+        font-weight: 700;
+        line-height: 1;
+        color: var(--color-logo);
+    }
+}
+
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 5rem;
+
+    h1 {
+        position: relative;
+        font-size: 3.6rem;
+        font-weight: 600;
+        line-height: 1.1;
+
+        span {
+            display: block;
+            color: var(--color-brand);
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: -1.1em;
+            left: 100%;
+            margin-left: 0.15em;
+            width: 1.42em;
+            height: 1.53em;
+            background: var(--kriipsud) no-repeat center / contain
+        }
+    }
+
+    p {
+        margin: 0.8rem 0 1.5rem;
+        font-size: 1.4rem;
+        font-weight: 500;
+        color: var(--color-brand);
+    }
+}
+
+.search-bar {
+    display: flex;
+    align-items: stretch;
+    width: min(38rem, 90%);
+    height: 3.2rem;
+    overflow: hidden;
+    background-color: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+
+    .search-field {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        min-width: 0;
+
+        img {
+            width: 1.2rem;
+            margin-left: 1rem;
+        }
+
+        input {
+            flex: 1;
+            min-width: 0;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 0.95rem;
+        }
+    }
+
+    button {
+        display: flex;
+        align-items: center;
+        padding: 0 1.7rem;
+        gap: 0.6;
+        border: none;
+        border-radius: 999px;
+        background-color: var(--color-brand);
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        width: 140px;
+        height: 50px;
+
+        &, & * {
+            color: #fff
+        }
+    }
+}
+
+.search-bar--compact {
+    flex: 1;
+    max-width: 44rem;
+    padding: 0;
+    background: transparent;
+    border: none;
+    gap: 1rem;
+
+    .search-field {
+        align-self: stretch;
+        background-color: #ffff;
+        border: 1px solid var(--color-border);
+        border-radius: 999px;
+    }
+}
+
+footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding: 1.5rem 3rem 1.25rem;
+    background-color: var(--color-brand);
+
+    & * {
+        color: #fff
+    }
+
+    .footer-brand img {
+        display: block;
+        height: 3.4rem;
+        width: auto;
+        rotate: -13deg;
+
+    }
+
+    .footer-brand span {
+        color: #fff
+    }
+
+
+    .slogan {
+        margin-top: 1rem;
+        font-weight: 600;
+    }
+
+    nav a {
+        padding: 0 1.5rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-decoration: none;
+
+        & + a {
+            border-left: 2px solid #fff;
+        }
+    }
+
+    &:last-child {
+        padding-right: 0;
+    }
+
+    .copyright {
+        flex-basis: 100%;
+        padding-top: 1rem;
+        border-top: 1px solid rgb(255 255 255 / 0.3)
+    }
+
+}
