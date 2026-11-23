@@ -5,7 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 from bs4.element import ResultSet, Tag
 
-ProductInfo = dict[str, list[str | float | int]]
+ProductInfo = dict[str, list[str]]
 
 
 def write_to_csv(
@@ -52,7 +52,6 @@ def get_products(url: str) -> ResultSet[Tag]:
 #     page = 1
 #     while True:
 #         soup = get_soup(url + page_extension + str(page))
-#         print(category_url + page_extension + str(page))
 
 #         if soup.find("a", id="nextAnchor"):
 #             page += 1
@@ -66,15 +65,14 @@ def extract_product_info(product: Tag, product_info: dict[str, list]) -> Product
     )
 
     product_info["img"].append(product.find("img", class_="product-card__image")["src"])
-
     discount_price = product.select_one(".price br").next_sibling.strip()
 
     try:
         discount_price_cents = product.select_one(".price span.cp").get_text(strip=True)
-
         discount_price += discount_price_cents
     except AttributeError:
         pass
+
     discount_price = discount_price.split()[0]
     product_info["discount_price"].append(discount_price)
 
@@ -98,8 +96,9 @@ def extract_product_info(product: Tag, product_info: dict[str, list]) -> Product
         discount_percentage = "N/A"
         regular_price = "N/A"
 
-    product_info["regular_price"].append(regular_price)
-    product_info["discount_percentage"].append(discount_percentage)
+    product_info["regular_price"].append(str(regular_price))
+    product_info["discount_percentage"].append(str(discount_percentage))
+
     product_info["product_link"].append(
         product.find("a", class_="product_name")["href"]
     )
