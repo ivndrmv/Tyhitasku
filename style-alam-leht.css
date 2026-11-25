@@ -1,67 +1,95 @@
+:root {
+    --color-primary: #25292e;
+    --color-secondary: #777e87;
+    --color-accent-primary: #1C782D;
+    --color-accent-secondary: #044D15;
+    --color-brand: #0e5345;
+    --color-background: #EDEDED;
+    --color-border: #DDE1E5;
+    --color-logo: #1a3e34;
+
+    --background-decoration-top: url(Images/taust-laine-ules.svg);
+    --background-decoration-bottom: url(Images/taust-laine-alla.svg);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: "Inter", sans-serif;
 }
 
 body {
-    background-color: #ECECEC;
-    color: #1F2937;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    position: relative;
-    overflow-x: hidden;
+    background-color: var(--color-background);
+
+    & *::selection {
+        background: #0072da;
+        color: white
+    }
 }
 
-body::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 42vw;
-    height: 38vh;
-    background-color: #DDE5E1;
-    border-bottom-left-radius: 100%;
-    z-index: 1;
-}
-
-body::after {
-    content: "";
-    position: absolute;
-    bottom: 110px;
-    left: 0;
-    width: 32vw;
-    height: 42vh;
-    background-color: #DDE5E1;
-    border-top-right-radius: 100%;
-    z-index: 1;
+.page {
+    flex: 1;
+    padding: 2rem 3rem 9rem;
+    background-image: var(--background-decoration-top), var(--background-decoration-bottom);
+    background-repeat: no-repeat;
+    background-position: right top, left bottom;
+    background-size: 28.4vw auto, 30.9vw auto;
 }
 
 .header {
-    padding: 30px 60px;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 1.5rem, 3rem;
     position: relative;
     z-index: 10;
 }
 
 .logo {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 0.8rem;
     text-decoration: none;
-    color: #1A3E34;
-}
+    transition: opacity 0.2s ease;
 
-.logo img {
-    height: 55px;
-    width: auto;
-}
+    &:hover {
+        opacity: 0.8;
+    }
 
-.logo span {
-    font-size: 38px;
-    font-weight: 800;
-    letter-spacing: -1px;
+    img {
+        display: block;
+        height: 4.25rem;
+        width: auto;
+        rotate: -13deg;
+        transition: transform 0.25s ease;
+    }
+
+    &:hover img,
+    &:focus-visible img {
+        transform: rotate(-5deg);
+    }
+    
+    span {
+        font-family: "Fira Sans", sans-serif;
+        font-size: 2.5rem;
+        font-weight: 700;
+        line-height: 1;
+        color: var(--color-logo);
+        transition: transform 0.25s ease;
+    }
+
+    &:hover span,
+    &:focus-visible span {
+        transform: translateX(0.4rem);
+    }
 }
 
 .main {
@@ -72,6 +100,22 @@ body::after {
     padding: 20px 20px 80px 20px;
     position: relative;
     z-index: 10;
+}
+
+.hero h1, .hero p, .search-bar {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fade-up .6s ease forwards;
+}
+.hero p { animation-delay: .3s; }
+.search-bar { animation-delay: .45s; }
+
+@keyframes fade-up {
+    to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; opacity: 1 !important; transform: none !important; }
 }
 
 .hero {
@@ -101,89 +145,86 @@ body::after {
     padding: 10px 40px;
 }
 
-.card section {
-    padding: 28px 0;
-    border-bottom: 1px solid #F0F0F0;
-}
+    section {
+        padding: 28px 0;
+        border-bottom: 1px solid #F0F0F0;
+    }
 
-.card section:last-child {
-    border-bottom: none;
-}
+    section:last-child {
+        border-bottom: none;
+    }
 
-.card h2 {
-    font-size: 15px;
-    font-weight: 600;
-    color: #6B7280;
-    margin-bottom: 10px;
-}
+    h2 {
+        font-size: 15px;
+        font-weight: 600;
+        color: #6B7280;
+        margin-bottom: 10px;
+    }
 
-.card p {
-    font-size: 15px;
-    line-height: 1.6;
-    color: #374151;
-}
+    p {
+        font-size: 15px;
+        line-height: 1.6;
+        color: #374151;
+    }
 
-.footer {
-    background-color: #0F4C3A;
-    color: #FFFFFF;
-    padding: 40px 80px 30px 80px;
-    position: relative;
-    z-index: 10;
-}
 
-.footer-brand {
+footer {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 35px;
-}
-
-.footer-brand .logo {
-    color: #FFFFFF;
-}
-
-.footer-brand img {
-    height: 48px;
-}
-
-.footer-brand span {
-    font-size: 34px;
-}
-
-.slogan {
-    font-size: 15px;
-    font-weight: 400;
-    opacity: 0.9;
-}
-
-.footer-nav {
-    display: flex;
-    justify-content: flex-end;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 28px;
-    margin-top: -65px;
-    margin-bottom: 40px;
-}
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding: 1.5rem 3rem 1.25rem;
+    margin-top: -1px;
+    line-height: 1.4;
+    background-color: var(--color-brand);
 
-.footer-nav a {
-    color: #FFFFFF;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: 600;
-    position: relative;
-}
+    & * {
+        color: #fff
+    }
 
-.footer-nav a:not(:last-child)::after {
-    content: "|";
-    position: absolute;
-    right: -16px;
-    opacity: 0.5;
-    font-weight: 300;
-}
+    .footer-brand img {
+        display: block;
+        height: 3.4rem;
+        width: auto;
+        rotate: -13deg;
 
-.copyright {
-    font-size: 15px;
-    opacity: 0.85;
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
-    padding-top: 20px;
+    }
+
+    .footer-brand span {
+        color: #fff
+    }
+
+
+    .slogan {
+        margin-top: 1rem;
+        font-weight: 600;
+    }
+
+    nav a {
+        padding: 0 1.5rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: opacity 0.2s ease;
+
+        & + a {
+            border-left: 2px solid #fff;
+        }
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+
+    &:last-child {
+        padding-right: 0;
+    }
+
+    .copyright {
+        flex-basis: 100%;
+        padding-top: 1rem;
+        border-top: 1px solid rgb(255 255 255 / 0.3)
+    }
+
 }
